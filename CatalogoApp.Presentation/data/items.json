@@ -9,30 +9,15 @@
     "ImagenUrl": "",
     "Resenas": []
   },
+
   {
-    "Id": 2,
+    "Id": 5,
     "Titulo": "NMS",
     "Genero": "CIencia ficcion",
     "Consola": "ere",
-    "Ano": 1999,
-    "Descripcion": "rere",
-    "ImagenUrl": "",
-    "Resenas": [
-      {
-        "Usuario": "Marco",
-        "Puntuacion": 5,
-        "Comentario": "Es mi juego favorito"
-      }
-    ]
-  },
-  {
-    "Id": 3,
-    "Titulo": "NMS Update",
-    "Genero": "CIencia ficcion",
-    "Consola": "ere",
-    "Ano": 1999,
-    "Descripcion": "Un juego infinito",
-    "ImagenUrl": "https://www.xbox.com/es-MX/games/store/no-mans-sky/BQVQTL3PCH05",
+    "Ano": 9999,
+    "Descripcion": "TEst 2",
+    "ImagenUrl": "/images/portadas/8146e73e-1f4a-4178-bb04-cb7cc9dc5c5d_apps.56486.68818099466568894.391e0700-449d-4430-a634-7339176aa70e.jpeg",
     "Resenas": []
   }
 ]
