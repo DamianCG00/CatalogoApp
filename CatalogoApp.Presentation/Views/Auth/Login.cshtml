@@ -1,0 +1,24 @@
+﻿@{
+    ViewData["Title"] = "Iniciar Sesión";
+}
+
+<div class="container" style="max-width: 400px; margin-top: 50px;">
+    <h2 style="color: #ffaa00; text-align: center;">Iniciar Sesión</h2>
+    
+    @if (ViewBag.Error != null)
+    {
+        <div class="alert alert-danger">@ViewBag.Error</div>
+    }
+
+    <form asp-controller="Auth" asp-action="Login" method="post" style="background: #1e1e1e; padding: 20px; border-radius: 8px;">
+        <div class="form-group" style="margin-bottom: 15px;">
+            <label style="color: white;">Nombre de Usuario</label>
+            <input type="text" name="nombre" class="form-control" required placeholder="Ingresa tu nombre" />
+        </div>
+        <div class="form-group" style="margin-bottom: 15px;">
+            <label style="color: white;">Contraseña</label>
+            <input type="password" name="password" class="form-control" required placeholder="Cualquier contraseña funciona" />
+        </div>
+        <button type="submit" class="btn btn-primary" style="width: 100%;">Entrar</button>
+    </form>
+</div>
