@@ -1,5 +1,6 @@
 ﻿using CatalogoApp.Application.Services;
 using CatalogoApp.Domain.Models;
+using Microsoft.AspNetCore.Authorization; // <-- NUEVO
 using Microsoft.AspNetCore.Mvc;
 
 namespace CatalogoApp.Presentation.Controllers
@@ -53,6 +54,29 @@ namespace CatalogoApp.Presentation.Controllers
         {
             _service.Eliminar(id);
             return RedirectToAction("Index");
+        }
+
+        // NUEVO: Guardar una opinión
+        [HttpPost]
+        [Authorize] // Bloquea la acción si no hay sesión iniciada
+        public IActionResult AgregarResena(int itemId, int puntuacion, string comentario)
+        {
+            var item = _service.ObtenerPorId(itemId);
+
+            if (item != null)
+            {
+                var nuevaResena = new Resena
+                {
+                    Usuario = User.Identity?.Name ?? "Anónimo", // Obtiene el nombre del usuario de la cookie
+                    Puntuacion = puntuacion,
+                    Comentario = comentario
+                };
+
+                item.Resenas.Add(nuevaResena);
+                _service.Actualizar(item); // Guarda los cambios en el JSON
+            }
+
+            return RedirectToAction("Detalle", new { id = itemId });
         }
     }
 }

@@ -1,29 +1,85 @@
-﻿@model List<CatalogoApp.Domain.Models.Item>
+﻿@model CatalogoApp.Domain.Models.Item
 
-<h1>Catálogo de Videojuegos</h1>
+@{
+    ViewData["Title"] = Model.Titulo;
+}
 
-<!-- Filtro por Genero -->
-<div>
-	<a asp-action="Index">Todos</a>
-	@foreach (var gen in ViewBag.Generos as List<string>)
-	{
-		<span> | </span>
-		<a asp-action="Index" asp-route-genero="@gen">@gen</a>
-	}
+<div style="display: flex; gap: 20px; align-items: flex-start; margin-bottom: 30px;">
+    @if (!string.IsNullOrEmpty(Model.ImagenUrl))
+    {
+        <img src="@Model.ImagenUrl" alt="@Model.Titulo" style="max-width: 250px; border-radius: 8px; box-shadow: 0 4px 8px rgba(0,0,0,0.5);" />
+    }
+    else
+    {
+        <div style="width: 250px; height: 350px; background-color: #333; display: flex; align-items: center; justify-content: center; border-radius: 8px;">
+            <span style="color: #777;">Sin Portada</span>
+        </div>
+    }
+
+    <div>
+        <h1 style="color: #ffaa00;">@Model.Titulo</h1>
+        <p><strong>Género:</strong> @Model.Genero</p>
+        <p><strong>Consola:</strong> @Model.Consola</p>
+        <p><strong>Año:</strong> @Model.Ano</p>
+        <p><strong>Descripción:</strong> @Model.Descripcion</p>
+    </div>
 </div>
 
 <hr />
 
-<!-- Lista de Items -->
-<ul>
-	@foreach (var item in Model)
-	{
-		<li>
-			<a asp-action="Detalle" asp-route-id="@item.Id">@item.Titulo</a>
-			&mdash; @item.Genero &diams; @item.Ano
-		</li>
-	}
-</ul>
+<h3>Opiniones de la comunidad</h3>
+
+@if (Model.Resenas != null && Model.Resenas.Any())
+{
+    <ul style="list-style: none; padding: 0;">
+        @foreach (var resena in Model.Resenas)
+        {
+            <li style="background: #2a2a2a; padding: 15px; border-radius: 5px; margin-bottom: 10px;">
+                <strong style="color: #ffaa00;">@resena.Usuario</strong>
+                <span style="color: gold;">
+                    @for (int i = 0; i < resena.Puntuacion; i++)
+                    {
+                        <text>★</text>
+                    }
+                </span>
+                <p style="margin-top: 5px; margin-bottom: 0;">@resena.Comentario</p>
+            </li>
+        }
+    </ul>
+}
+else
+{
+    <p>Aún no hay opiniones para este juego. ¡Sé el primero en calificarlo!</p>
+}
 
 <hr />
-<a asp-action="Agregar">+ Agregar videojuego</a>
+
+@if (User.Identity.IsAuthenticated)
+{
+    <h4 style="color: #ffaa00;">Agregar tu opinión</h4>
+    <form asp-controller="Catalogo" asp-action="AgregarResena" method="post" style="max-width: 500px;">
+        <input type="hidden" name="itemId" value="@Model.Id" />
+        
+        <div class="form-group" style="margin-bottom: 10px;">
+            <label>Puntuación (1 a 5 estrellas):</label>
+            <input type="number" name="puntuacion" min="1" max="5" class="form-control" required />
+        </div>
+        
+        <div class="form-group" style="margin-bottom: 10px;">
+            <label>Comentario:</label>
+            <textarea name="comentario" class="form-control" rows="3" required></textarea>
+        </div>
+        
+        <button type="submit" class="btn btn-success">Guardar Opinión</button>
+    </form>
+}
+else
+{
+    <div class="alert alert-info" style="max-width: 500px;">
+        Debes <a asp-controller="Auth" asp-action="Login" style="color: #ffaa00; font-weight: bold;">Iniciar Sesión</a> para dejar una opinión.
+    </div>
+}
+
+<div style="margin-top: 20px;">
+    <a asp-action="Index">&larr; Volver al catálogo</a>
+</div>
