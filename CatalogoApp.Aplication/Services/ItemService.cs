@@ -1,55 +1,57 @@
-﻿using CatalogoApp.Domain.Interfaces;
+﻿using System.Collections.Generic;
+using System.Linq;
+using CatalogoApp.Domain.Interfaces;
 using CatalogoApp.Domain.Models;
 
 namespace CatalogoApp.Application.Services
 {
     public class ItemService
     {
-        private readonly IItemRepository _repo;
+        private readonly IItemRepository _repository;
 
-        // El servicio recibe el repositorio por constructor
-        // No sabe si es JSON, SQL, memoria, etc.
-        public ItemService(IItemRepository repo)
+        public ItemService(IItemRepository repository)
         {
-            _repo = repo;
+            _repository = repository;
         }
 
         public List<Item> ObtenerTodos()
         {
-            return _repo.ObtenerTodos();
+            return _repository.ObtenerTodos();
         }
 
         public Item? ObtenerPorId(int id)
         {
-            return _repo.ObtenerPorId(id);
+            return _repository.ObtenerPorId(id);
         }
 
         public void Agregar(Item item)
         {
-            // Aquí podrías agregar validaciones de negocio
-            // Por ejemplo: if (string.IsNullOrEmpty(item.Titulo)) throw...
-            _repo.Agregar(item);
+            _repository.Agregar(item);
+        }
+
+        // <-- Este es el método que soluciona el error CS1061 -->
+        public void Actualizar(Item item)
+        {
+            _repository.Actualizar(item);
         }
 
         public void Eliminar(int id)
         {
-            _repo.Eliminar(id);
+            _repository.Eliminar(id);
         }
 
-        // Método útil para el filtro por categoría/género
+        // Método para filtrar por género (usado en tu Index)
         public List<Item> ObtenerPorGenero(string genero)
         {
-            return _repo.ObtenerTodos()
-                        .Where(i => i.Genero == genero)
-                        .ToList();
+            var todos = _repository.ObtenerTodos();
+            return todos.Where(i => i.Genero.Equals(genero, System.StringComparison.OrdinalIgnoreCase)).ToList();
         }
 
+        // Método para obtener la lista de géneros únicos (usado en tu ViewBag.Generos)
         public List<string> ObtenerGeneros()
         {
-            return _repo.ObtenerTodos()
-                        .Select(i => i.Genero)
-                        .Distinct()
-                        .ToList();
+            var todos = _repository.ObtenerTodos();
+            return todos.Select(i => i.Genero).Distinct().Where(g => !string.IsNullOrEmpty(g)).ToList();
         }
     }
 }

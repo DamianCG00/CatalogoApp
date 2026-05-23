@@ -50,6 +50,19 @@ namespace CatalogoApp.Infrastructure.Repositories
             Guardar(items);
         }
 
+        // Actualiza un item existente (ideal para guardar las nuevas reseñas)
+        public void Actualizar(Item itemActualizado)
+        {
+            var items = ObtenerTodos();
+            var index = items.FindIndex(i => i.Id == itemActualizado.Id);
+
+            if (index != -1)
+            {
+                items[index] = itemActualizado;
+                Guardar(items);
+            }
+        }
+
         // Elimina por Id y guarda
         public void Eliminar(int id)
         {
