@@ -5,7 +5,9 @@
     "Genero": "Hack and Slash",
     "Consola": "PlayStation 2",
     "Ano": 2001,
-    "Descripcion": "Dante, cazador de demonios, enfrenta a Mundus."
+    "Descripcion": "Dante, cazador de demonios, enfrenta a Mundus.",
+    "ImagenUrl": "",
+    "Resenas": []
   },
   {
     "Id": 2,
@@ -13,6 +15,24 @@
     "Genero": "CIencia ficcion",
     "Consola": "ere",
     "Ano": 1999,
-    "Descripcion": "rere"
+    "Descripcion": "rere",
+    "ImagenUrl": "",
+    "Resenas": [
+      {
+        "Usuario": "Marco",
+        "Puntuacion": 5,
+        "Comentario": "Es mi juego favorito"
+      }
+    ]
+  },
+  {
+    "Id": 3,
+    "Titulo": "NMS Update",
+    "Genero": "CIencia ficcion",
+    "Consola": "ere",
+    "Ano": 1999,
+    "Descripcion": "Un juego infinito",
+    "ImagenUrl": "https://www.xbox.com/es-MX/games/store/no-mans-sky/BQVQTL3PCH05",
+    "Resenas": []
   }
 ]
